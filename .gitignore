@@ -1,9 +1,0 @@
-node_modules/
-*.json
-*.jwks
-clientApp/username.txt
-clientApp/password.txt
-*.pyc
-
-*.bin
-*.pdf_tex

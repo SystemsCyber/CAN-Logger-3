@@ -1,4 +1,0 @@
-pyjwkest>=1.4.2
-cryptography>=2.8
-ecdsa>=0.14.1
-boto3>=1.9.37

@@ -1,7 +1,0 @@
-crypto>=1.4.1
-pyjwkest>=1.4.2
-ecdsa>=0.14.1
-boto3>=1.10.48
-PyQt5>=5.11
-requests>=2.22.0
-pyserial>=3.4
