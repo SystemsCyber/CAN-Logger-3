@@ -12,7 +12,6 @@ $( document ).ready(function() {
         }
     })
     .done(function (data, textStatus, jqXHR) {
-      displayRibbon('There was an error when retrieving CAN Logger information.', 'danger');
       console.log(data)
       for (var line in data['Items']) {
         if (data.hasOwnProperty(line)) {
