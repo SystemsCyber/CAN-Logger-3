@@ -14,15 +14,15 @@ $( document ).ready(function() {
     .done(function (data, textStatus, jqXHR) {
       displayRibbon('There was an error when retrieving CAN Logger information.', 'danger');
       console.log(data)
-      for (var line in data) {
+      for (var line in data['Items']) {
         if (data.hasOwnProperty(line)) {
-          var device_label = data[line]['filename'];
-          var provision_time = data[line]['provision_time'];
+          var device_label = data['Items'][line]['filename'];
+          var provision_time = data['Items'][line]['filesize'];
           if (provision_time === undefined) { provision_time = 'Unknown' };
-          var id = data[line]['id'];
-          var upload_ip = data[line]['upload_ip'];
+          var id = data['Items'][line]['id'];
+          var upload_ip = data['Items'][line]['serial_num'];
           if (upload_ip === undefined) { upload_ip = 'Unknown' };
-          var upload_time = data[line]['upload_time'];
+          var upload_time = data['Items'][line]['upload_date'];
           if (upload_time === undefined) { upload_time = 'Unknown' };
           $("#loggerID").append(
             '<tr id="row_' + id + '">' +
