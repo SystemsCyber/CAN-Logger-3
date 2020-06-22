@@ -15,13 +15,13 @@ $( document ).ready(function() {
         console.log(data)
         for (var line in data) {
             if (data.hasOwnProperty(line)) {
-              var device_label = data[line]['Filename'];
-              var provision_time = data[line]['File Size'];
+              var device_label = data[line]['filename'];
+              var provision_time = data[line]['filesize'];
                 if (provision_time === undefined){provision_time='Unknown'};
               var id = data[line]['Logger Serial Number'];
                 var upload_ip = data[line]['upload_ip'];
                 if (upload_ip === undefined){upload_ip='Unknown'};
-              var upload_time = data[line]['Upload Date'];
+              var upload_time = data[line]['datetime'];
                 if (upload_time === undefined){upload_time='Unknown'};
                 $("#loggerID").append(
                     '<tr id="row_' + id + '">' +
