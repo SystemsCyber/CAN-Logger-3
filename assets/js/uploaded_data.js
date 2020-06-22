@@ -2,7 +2,7 @@ $( document ).ready(function() {
     $('#email').text(sessionStorage.getItem("email"));
     var access_token = window.sessionStorage.getItem('id_token');
     $.ajax({
-        url: "https://47tzdaoo6k.execute-api.us-east-2.amazonaws.com/dev/devices",
+      url: "https://47tzdaoo6k.execute-api.us-east-2.amazonaws.com/dev/list",
         method: "GET",
         crossDomain: true,
         dataType: 'json',
@@ -15,13 +15,13 @@ $( document ).ready(function() {
         console.log(data)
         for (var line in data) {
             if (data.hasOwnProperty(line)) {
-                var device_label = data[line]['device_label'];
-                var provision_time = data[line]['provision_time'];
+              var device_label = data[line]['Filename'];
+              var provision_time = data[line]['File Size'];
                 if (provision_time === undefined){provision_time='Unknown'};
-                var id = data[line]['id'];
+              var id = data[line]['Logger Serial Number'];
                 var upload_ip = data[line]['upload_ip'];
                 if (upload_ip === undefined){upload_ip='Unknown'};
-                var upload_time = data[line]['upload_time'];
+              var upload_time = data[line]['Upload Date'];
                 if (upload_time === undefined){upload_time='Unknown'};
                 $("#loggerID").append(
                     '<tr id="row_' + id + '">' +
