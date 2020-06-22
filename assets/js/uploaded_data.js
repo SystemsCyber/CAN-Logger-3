@@ -16,22 +16,22 @@ $( document ).ready(function() {
       for (const line in data['Items']) {
         // if (data.hasOwnProperty(line)) {
 
-          var device_label = data['Items'][line]['filename'];
-          console.log(device_label)
-          var provision_time = data['Items'][line]['filesize'];
-          if (provision_time === undefined) { provision_time = 'Unknown' };
-          var id = data['Items'][line]['id'];
-          var upload_ip = data['Items'][line]['serial_num'];
-          if (upload_ip === undefined) { upload_ip = 'Unknown' };
-          var upload_time = data['Items'][line]['upload_date'];
+          var file_name = data['Items'][line]['filename'];
+          console.log(file_name)
+          var file_size = data['Items'][line]['filesize'];
+          if (file_size === undefined) { file_size = 'Unknown' };
+          var id = data['Items'][line]['serial_num'];
+        var verify_status = data['Items'][line]['verify_status'];
+          if (verify_status === undefined) { verify_status = 'Unknown' };
+        var upload_time = data['Items'][line]['upload_date'];
           if (upload_time === undefined) { upload_time = 'Unknown' };
           $("#loggerID").append(
             '<tr id="row_' + id + '">' +
-            "<td>" + device_label + "</td>" +
+            "<td>" + file_name + "</td>" +
             "<td>" + id + '</td>' +
-            '<td>' + provision_time.split('T')[0] + "</td>" +
-            '<td>' + upload_time.split('T')[0] + "</td>" +
-            '<td>' + upload_ip + "</td>" +
+            '<td>' + file_size + "</td>" +
+            '<td>' + upload_time + "</td>" +
+            '<td>' + verify_status + "</td>" +
             "</tr>"
           );
         // }
