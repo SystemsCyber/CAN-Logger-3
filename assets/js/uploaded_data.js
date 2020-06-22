@@ -2,7 +2,7 @@ $( document ).ready(function() {
     $('#email').text(sessionStorage.getItem("email"));
     var access_token = window.sessionStorage.getItem('id_token');
     $.ajax({
-      url: "https://47tzdaoo6k.execute-api.us-east-2.amazonaws.com/dev/devices",
+      url: "https://47tzdaoo6k.execute-api.us-east-2.amazonaws.com/dev/list",
         method: "GET",
         crossDomain: true,
         dataType: 'json',
@@ -12,6 +12,7 @@ $( document ).ready(function() {
         }
     })
     .done(function (data, textStatus, jqXHR) {
+      displayRibbon('There was an error when retrieving CAN Logger information.', 'danger');
       console.log(data)
       for (var line in data) {
         if (data.hasOwnProperty(line)) {
