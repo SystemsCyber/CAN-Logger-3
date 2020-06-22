@@ -13,8 +13,9 @@ $( document ).ready(function() {
     })
     .done(function (data, textStatus, jqXHR) {
       console.log(data)
-      for (var line in data['Items']) {
-        if (data.hasOwnProperty(line)) {
+      for (const line in data['Items']) {
+        // if (data.hasOwnProperty(line)) {
+
           var device_label = data['Items'][line]['filename'];
           var provision_time = data['Items'][line]['filesize'];
           if (provision_time === undefined) { provision_time = 'Unknown' };
@@ -32,7 +33,7 @@ $( document ).ready(function() {
             '<td>' + upload_ip + "</td>" +
             "</tr>"
           );
-        }
+        // }
       }
     })
     .fail(function (error_data){
