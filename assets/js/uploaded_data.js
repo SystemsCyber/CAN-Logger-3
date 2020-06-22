@@ -17,6 +17,7 @@ $( document ).ready(function() {
         // if (data.hasOwnProperty(line)) {
 
           var device_label = data['Items'][line]['filename'];
+          console.log(device_label)
           var provision_time = data['Items'][line]['filesize'];
           if (provision_time === undefined) { provision_time = 'Unknown' };
           var id = data['Items'][line]['id'];
