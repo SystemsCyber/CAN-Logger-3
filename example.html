@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
     <link rel="stylesheet" href="assets/css/smoothproducts.css">
+    <script src="assets/js/jwt-decode.min.js">
+        let params = new URLSearchParams(location.search);
+        console.log(params);
+        var token = params.get('token');
+        console.log(token);
+        var decoded = jwt_decode(token);
+        console.log(decoded);
+        var decoded = jwt_decode(token);
+        console.log(decoded);
+    </script>
 </head>
 
 <body>
@@ -73,6 +83,7 @@
             <p>© 2020 Copyright Jeremy Daily</p>
         </div>
     </footer>
+    
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
