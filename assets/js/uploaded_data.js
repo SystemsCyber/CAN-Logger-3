@@ -16,7 +16,7 @@ $( document ).ready(function() {
       console.log(data)
       for (var line in data) {
         if (data.hasOwnProperty(line)) {
-          var device_label = data[line]['device_label'];
+          var device_label = data[line]['filename'];
           var provision_time = data[line]['provision_time'];
           if (provision_time === undefined) { provision_time = 'Unknown' };
           var id = data[line]['id'];
