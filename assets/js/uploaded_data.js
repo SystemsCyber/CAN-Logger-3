@@ -2,7 +2,7 @@ $( document ).ready(function() {
     $('#email').text(sessionStorage.getItem("email"));
     var access_token = window.sessionStorage.getItem('id_token');
     $.ajax({
-      url: "https://47tzdaoo6k.execute-api.us-east-2.amazonaws.com/dev/list",
+      url: "https://47tzdaoo6k.execute-api.us-east-2.amazonaws.com/dev/devices",
         method: "GET",
         crossDomain: true,
         dataType: 'json',
@@ -11,29 +11,29 @@ $( document ).ready(function() {
             'Access-Control-Allow-Origin': "*"
         }
     })
-    .done(function(data, textStatus, jqXHR){
-        console.log(data)
-        for (var line in data) {
-            if (data.hasOwnProperty(line)) {
-              var device_label = data; //['filename'];
-              var provision_time = data[line]['filesize'];
-                if (provision_time === undefined){provision_time='Unknown'};
-              var id = data[line]['Logger Serial Number'];
-                var upload_ip = data[line]['upload_ip'];
-                if (upload_ip === undefined){upload_ip='Unknown'};
-              var upload_time = data[line]['datetime'];
-                if (upload_time === undefined){upload_time='Unknown'};
-                $("#loggerID").append(
-                    '<tr id="row_' + id + '">' +
-                    "<td>" + device_label + "</td>" +
-                    "<td>" + id + '</td>' +
-                    '<td>' + provision_time.split('T')[0] + "</td>" +
-                    '<td>' + upload_time.split('T')[0] + "</td>" +
-                    '<td>' + upload_ip + "</td>" +
-                    "</tr>"
-                );
-            }
+    .done(function (data, textStatus, jqXHR) {
+      console.log(data)
+      for (var line in data) {
+        if (data.hasOwnProperty(line)) {
+          var device_label = data[line]['device_label'];
+          var provision_time = data[line]['provision_time'];
+          if (provision_time === undefined) { provision_time = 'Unknown' };
+          var id = data[line]['id'];
+          var upload_ip = data[line]['upload_ip'];
+          if (upload_ip === undefined) { upload_ip = 'Unknown' };
+          var upload_time = data[line]['upload_time'];
+          if (upload_time === undefined) { upload_time = 'Unknown' };
+          $("#loggerID").append(
+            '<tr id="row_' + id + '">' +
+            "<td>" + device_label + "</td>" +
+            "<td>" + id + '</td>' +
+            '<td>' + provision_time.split('T')[0] + "</td>" +
+            '<td>' + upload_time.split('T')[0] + "</td>" +
+            '<td>' + upload_ip + "</td>" +
+            "</tr>"
+          );
         }
+      }
     })
     .fail(function (error_data){
         displayRibbon('There was an error when retrieving CAN Logger information.', 'danger');
