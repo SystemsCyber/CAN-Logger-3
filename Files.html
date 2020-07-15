@@ -4,22 +4,23 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Features - Brand</title>
+    <title>CAN Loggers</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
     <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="assets/css/Drag-Drop-File-Input-Upload.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
     <link rel="stylesheet" href="assets/css/smoothproducts.css">
-    <script src="assets/js/jwt-decode.min.js">
-        let params = new URLSearchParams(location.search);
-        console.log(params);
-        var token = params.get('token');
-        console.log(token);
-        var decoded = jwt_decode(token);
-        console.log(decoded);
-        var decoded = jwt_decode(token);
-        console.log(decoded);
-    </script>
+<script src="assets/js/jwt-decode.min.js">
+  let params = new URLSearchParams(location.search);
+  console.log(params);
+  var token = params.get('token');
+  console.log(token);
+  var decoded = jwt_decode(token);
+  console.log(decoded);
+  var decoded = jwt_decode(token);
+  console.log(decoded);
+</script>
 </head>
 
 <body>
@@ -43,14 +44,14 @@
             <div class="container">
                 <div class="block-heading">
                     <h2 class="text-info">CAN Logger Files</h2>
-                    <p>The following Log Files are uploaded to the cloud and are tied to your account.</p>
+                    <p>The following Log Files are uploaded to the cloud and are tied to your account.<br></p>
                     <div class="table-responsive">
                         <table class="table table-striped" id="Uploaded_Data">
                             <thead>
                                 <tr>
                                     <th onclick="sortTable(0)">File Name</th>
                                     <th onclick="sortTable(1)">Serial Number</th>
-                                    <th onclick="sortTable(2)">File Size(bytes)</th>
+                                    <th onclick="sortTable(2)">File Size (bytes)</th>
                                     <th onclick="sortTable(3)">Upload Date</th>
                                     <th onclick="sortTable(4)">Status</th>
                                 </tr>
@@ -60,9 +61,11 @@
                     </div>
                 </div>
             </div>
+            <div class="container">
+                <div class="form-group files color"><input type="file" multiple="" name="files"></div>
+            </div>
         </section>
     </main>
-
     <footer class="page-footer dark">
         <div class="container">
             <div class="row">
@@ -80,7 +83,6 @@
             <p>© 2020 Copyright Jeremy Daily</p>
         </div>
     </footer>
-    
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
@@ -88,6 +90,7 @@
     <script src="assets/js/theme.js"></script>
     <script src="assets/js/check_login.js"></script>
     <script src="assets/js/jwt-decode.min.js"></script>
+    <script src="assets/js/loggers.js"></script>
     <script src="assets/js/uploaded_data.js"></script>
 </body>
 
