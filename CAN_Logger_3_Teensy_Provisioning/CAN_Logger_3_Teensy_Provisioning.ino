@@ -48,11 +48,18 @@ byte hash[SHA256_BLOCK_SIZE];
 byte message[64];
 uint8_t server_public_key[64];
 uint8_t encrypted_pass[16];
-
+#define GREEN_LED 6
+#define RED_LED 14
+#define YELLOW_LED 5
+#define BLUE_LED 39
 String serial_string;
 
 void setup() {
   // put your setup code here, to run once:
+  pinMode(GREEN_LED,OUTPUT);
+  pinMode(RED_LED,OUTPUT);
+  pinMode(YELLOW_LED,OUTPUT);
+  pinMode(BLUE_LED,OUTPUT);
   Serial.begin(9600);
   //Initiate ATECC608A connection
   Wire.begin(I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_EXT, 100000);
@@ -65,6 +72,10 @@ void setup() {
     Serial.println("Device not found. Check wiring.");
     while (1); // stall out forever
   }  
+   digitalWrite(GREEN_LED,HIGH);
+   digitalWrite(RED_LED,HIGH);
+   digitalWrite(YELLOW_LED,HIGH);
+   digitalWrite(BLUE_LED,HIGH);
 }
 
 void send_data(){
