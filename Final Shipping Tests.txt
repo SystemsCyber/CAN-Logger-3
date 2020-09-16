@@ -1,0 +1,58 @@
+    Complete this checklist before shipping a CAN Logger 3 to a Customer
+
+[ ] Customer Name: ________________________________________ [ ] Date: __________
+
+[ ] Remove SD card, connect logger to USB Serial and examine startup messages.
+
+[ ] With SD card removed, the red LED flashes.
+
+[ ] Logger time from USB Serial is within 1 minute of actual PC time.
+
+[ ] Logger and PC timezone: MST (UTC-0700) or MDT (UTC-0600) or Other: _________
+
+[ ] Red LED stops flashing after inserting an SD card.
+
+[ ] Enter the serial command for the ID (ID CSUXX) where XX is the logger num.
+
+[ ] Device responds with Device ID: ___________________
+
+[ ] Enter the serial command to reset the count: COUNT 0
+
+[ ] Device responds with Set current file to 000
+
+[ ] Unplug and replug the USB Serial and observe solid green LED.
+
+[ ] Logger Number Printed on the enclosure: _________________ 
+
+[ ] The filename prefix matches the number printed on the enclosure.
+
+[ ] Connect Logger to live CAN bus. Observe Green and Yellow LED flickering.
+
+[ ] Record the ATECC608 SN:_______________________________
+
+[ ] Record first digits of the IV:________________ If zeros, then no encryption.
+
+[ ] Press the left button (near green). Observe red LED slow flash.
+
+[ ] Double click left button (near green). Observe a new file was created.
+
+[ ] Previous file showed SIZE, BIN-SHA, TXT-SHA, and SIG.
+
+[ ] Note filename from Serial console.
+
+[ ] Disconnect USB Power first, then disconnect 12V Power.
+
+[ ] Remove SD Card from Logger, connect to computer. 
+
+[ ] Open last file in hex editor (HxD) and calculate SHA-256:___________________
+
+[ ] Eject SD Card, reinsert to Logger, connect USB Serial.
+
+[ ] Previous file meta data shows BIN-SHA matching calculated SHA.
+
+[ ] Format SD card (FORMAT). Confirm with LS A being empty.
+
+[ ] Reset Counter to zero (COUNT 0).
+
+[ ] Logger Device ID and Serial Number match on 
+    https://systemscyber.github.io/CAN-Logger-3/loggers.html
