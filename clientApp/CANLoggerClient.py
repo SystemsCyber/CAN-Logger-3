@@ -330,6 +330,7 @@ class CANLogger(QMainWindow):
             if not ok:
                 return
             try:
+                self.device_label_g = device_label[:5]
                 data = {'serial_number': base64.b64encode(serial_number).decode("ascii"),
                         'device_label': device_label[:5],
                         'device_public_key': base64.b64encode(device_public_key).decode("ascii"),
@@ -404,7 +405,7 @@ class CANLogger(QMainWindow):
         options |= QFileDialog.Detail
         self.data_file_name, data_file_type = QFileDialog.getSaveFileName(self,
                                             "Save File",
-                                            self.home_directory + "/" + "CAN Logger 3 Security List",
+                                                                          self.home_directory + "/" + "CAN Logger 3 Security List " + self.device_label_g,
                                             "JSON Files (*.json);;All Files (*)",
                                             options = options)
         if self.data_file_name:
