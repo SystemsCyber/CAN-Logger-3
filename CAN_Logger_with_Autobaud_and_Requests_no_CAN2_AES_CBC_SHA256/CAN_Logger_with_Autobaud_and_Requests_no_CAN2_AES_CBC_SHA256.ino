@@ -64,7 +64,7 @@
 #include <SparkFun_ATECCX08a_Arduino_Library.h> //Click here to get the library: http://librarymanager/All#SparkFun_ATECCX08a
 #include <i2c_t3.h> //use to communicate with the ATECC608a cryptographic coprocessor
 
-const String version_number = "1.0.0";
+const String version_number = "1.0.1";
 
 ATECCX08A atecc;
 //Get access to a hardware based CRC32 
