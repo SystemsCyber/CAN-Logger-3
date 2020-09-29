@@ -64,6 +64,7 @@
 #include <SparkFun_ATECCX08a_Arduino_Library.h> //Click here to get the library: http://librarymanager/All#SparkFun_ATECCX08a
 #include <i2c_t3.h> //use to communicate with the ATECC608a cryptographic coprocessor
 
+const String version_number = "1.0.0";
 
 ATECCX08A atecc;
 //Get access to a hardware based CRC32 
@@ -1389,6 +1390,7 @@ void loop(void) {
   if (Serial.available() >= 2) {
     commandString = Serial.readStringUntil('\n');
     if      (commandString.equalsIgnoreCase("HEX"))        print_hex();
+    else if (commandString.equalsIgnoreCase("VERSION"))    Serial.println(version_number);
     else if (commandString.equalsIgnoreCase("STOP"))       turn_recording_off();
     else if (commandString.equalsIgnoreCase("START"))      turn_recording_on();
     else if (commandString.equalsIgnoreCase("NEW"))        close_binFile();
@@ -1465,6 +1467,7 @@ void loop(void) {
     }    
     else if (commandString.equalsIgnoreCase("HELP")){
       Serial.println(F("List of available commands:"));
+      Serial.println(F("VERSION     (Display the current software version)"));
       Serial.println(F("HEX         (Stream the latest log file in printable hexadecimal)"));
       Serial.println(F("BIN         (Stream the latest log file in binary format to the serial port)"));
       Serial.println(F("DEL [file-name.bin] (Delete the chosen file in the SD card)"));

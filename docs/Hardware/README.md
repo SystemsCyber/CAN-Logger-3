@@ -8,6 +8,13 @@ The CAN Logger 3 was designed with Altium Designer version 19 and 20. The differ
 
 There is also information with libraries for parts used in the design file. However, these are likely outdated.
 
+## Revision Numbers
+The CAN Loggers that were labeled and placed into enclosures follow different hardware revisions based on their number.
+
+**CSU01 - CSU19** are hardware revision 3d, with hardware rework described in the Revision 3d directory. WiFi is not powered by default and a jumper needs to be closed to use WiFi.
+
+**CSU20 and larger** are hardware revision 3e. These have the Teensy Loader jumper shorted by default. The WiFi jumper was removed, so it can be programmed.
+
 ## Additional Hardware
 The enclosures are Bud HP-3651-B. Some of the references in the design documents have the 6 and the 5 transposed so the incorrect partnumber is referenced (i.e. HP3561 is wrong, but HP3651B is correct.) The enclosures are available here:
 

@@ -2,9 +2,17 @@
 
 [ ] Customer Name: ________________________________________ [ ] Date: __________
 
-[ ] Remove SD card, connect logger to USB Serial and examine startup messages.
+[ ] Measure the resistance for the coin cell holder to be above 3.5Mohms.
 
-[ ] With SD card removed, the red LED flashes.
+[ ] Measure Coin Cell voltage is above 2.7V.
+
+[ ] Assemble 3 screws inside and 4 screws outside.
+
+[ ] Download Firmware github.com/SystemsCyber/CAN-Logger-3/releases/ ___________
+	Upload Firmware to Logger using Teensy.exe
+
+[ ] Remove SD card, connect logger to USB Serial and examine startup messages. 
+	With SD card removed, the red LED flashes.
 
 [ ] Logger time from USB Serial is within 1 minute of actual PC time.
 
@@ -12,13 +20,11 @@
 
 [ ] Red LED stops flashing after inserting an SD card.
 
+[ ] Enter the VERSION command. Record the version number: __________________
+
 [ ] Enter the serial command for the ID (ID CSUXX) where XX is the logger num.
 
 [ ] Device responds with Device ID: ___________________
-
-[ ] Enter the serial command to reset the count: COUNT 0
-
-[ ] Device responds with Set current file to 000
 
 [ ] Unplug and replug the USB Serial and observe solid green LED.
 
@@ -38,11 +44,10 @@
 
 [ ] Previous file showed SIZE, BIN-SHA, TXT-SHA, and SIG.
 
-[ ] Note filename from Serial console.
+[ ] Note new filename from Serial console: _______________________________
 
-[ ] Disconnect USB Power first, then disconnect 12V Power.
-
-[ ] Remove SD Card from Logger, connect to computer. 
+[ ] Disconnect USB Power first, then disconnect 12V Power. Remove SD Card from 
+	Logger, connect SD Card to computer. 
 
 [ ] Open last file in hex editor (HxD) and calculate SHA-256:___________________
 
@@ -56,3 +61,7 @@
 
 [ ] Logger Device ID and Serial Number match on 
     https://systemscyber.github.io/CAN-Logger-3/loggers.html
+
+[ ] Include the 9-pin to Dsub-15 cable
+
+[ ] Checklist completed by: ____________________________________________________
