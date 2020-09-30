@@ -1486,7 +1486,7 @@ void loop(void) {
       Serial.println(F("STREAM OFF  (Stop sending interpreted CAN Frames to the Serial port)"));
       Serial.println(F("BAUDRATE    (Show the baudrate in each log file)"));
       Serial.println(F("COUNT [abc] (Set the file index to a 3 digit alphanumeric code abc)"));
-      Serial.println(F("ID [Vxx]    (Change device version [V] and serial number [xx]; e.g. ID 201 means version 2 serial number 01)"));
+      Serial.println(F("ID [CSUxx]    (Change device serial number [xx]; e.g. CSU23 means serial number 23)"));
     }
     else {
       Serial.println(("Unknown Command"));
