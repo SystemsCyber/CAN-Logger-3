@@ -28,6 +28,14 @@ boolean BLUE_LED_state;
 uint32_t mask[4]={0xFF, 0xFF00, 0xFF0000, 0xFF000000};
 uint8_t shift[4]={0, 8, 16, 32};
 
+union u_seconds {
+  uint32_t count;
+  byte b[4];
+};
+
+// Declare the variable using the union
+u_seconds u_counter;
+
 void setup(void) {
   Can0.begin();
   Can0.setBaudRate(250000);
@@ -60,16 +68,17 @@ void setup(void) {
 void loop() {
   msg.id = TX_counter++;
   if (msg.id >= 0x1FFFFFFF) TX_counter = 0;
-  uint32_t timer_value = micro_counter;
-  //memcpy(&msg.buf[0], &timer_value, 4);
+  u_counter.count = micro_counter;
   for (int i = 0; i < 4; i++){
-    msg.buf[i] = (timer_value & mask[i]) >> shift[i];
+    msg.buf[i] = u_counter.b[i];
   }
+  
   while(!Can0.write(msg));
+  
   if (display_timer>100){
     display_timer = 0;
     GREEN_LED_state = !GREEN_LED_state;
     digitalWrite(GREEN_LED,GREEN_LED_state);
-    //Serial.printf("%08X: %02X %02X %02X %02X\n", msg.id, msg.buf[0], msg.buf[1], msg.buf[2], msg.buf[3]); 
+    Serial.printf("%08X: %02X %02X %02X %02X\n", msg.id, msg.buf[0], msg.buf[1], msg.buf[2], msg.buf[3]); 
   }
 }
