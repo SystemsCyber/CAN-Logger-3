@@ -1,4 +1,5 @@
 #include <FlexCAN_T4.h>
+#include "CAN-Logger-3-Teensy36-Mounted.h"
 FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> Can0;
 
 elapsedMillis display_timer;
@@ -8,17 +9,7 @@ CAN_message_t msg;
 
 // Define CAN TXRX Transmission Silent pins
 // See the CAN Logger 2 Schematic for the source pins
-#define SILENT_0   42
-#define SILENT_1   41
-#define SILENT_2   40
-#define BUTTON_PIN 28 //version 3b
-#define POWER_PIN  21
 
-//Setup LEDs
-#define GREEN_LED 6
-#define RED_LED 14
-#define YELLOW_LED 5
-#define BLUE_LED 39
 
 boolean GREEN_LED_state;
 boolean RED_LED_state;
