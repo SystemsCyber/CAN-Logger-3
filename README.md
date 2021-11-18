@@ -8,6 +8,8 @@ An open source secure data logging system for heavy vehicle networks. This proje
   3. A Python 3 application running PyQT5 to interface with the embedded device.
   4. A microservices-based web backend with Amazon Web Services using Python and the serverless frameworks.
 
+Much of the details in the design and application are found in Duy Van's thesis: https://mountainscholar.org/handle/10217/219549 
+
 ## Goals
 The end use of the device is to securely log all the vehicle network traffic on a heavy vehicle. Some of the stated goals:
   1. Reliably capture all network data when connected to a vehicle on multiple vehicle networks to include 3 CAN channels and J1708.
