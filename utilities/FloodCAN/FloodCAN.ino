@@ -1,6 +1,6 @@
 #include <FlexCAN_T4.h>
 #include "CAN-Logger-3-Teensy36-Mounted.h"
-FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> Can0;
+FlexCAN_T4<CAN0, RX_SIZE_256, TX_SIZE_16> Can0;
 
 elapsedMillis display_timer;
 elapsedMicros micro_counter;
