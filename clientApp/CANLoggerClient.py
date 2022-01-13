@@ -115,7 +115,7 @@ class CANLogger(QMainWindow):
         except:
             logger.critical(traceback.format_exc())
             QMessageBox.warning(self,"Missing API Key","Please contact Jeremy Daily at Colorado State University to obtain an API key for this application.")
-            sys.exit()
+            #sys.exit()
         self.statusBar().showMessage("Welcome to the CANLogger App.")
 
          # Build common menu options

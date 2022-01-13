@@ -60,10 +60,9 @@
 #ifdef USE_ENCRYPTION
   #include "CryptoAccel.h" //Makes the cryptographic acceleration hardware arduino compatible
 #endif
-
 #include <SparkFun_ATECCX08a_Arduino_Library.h> //Click here to get the library: http://librarymanager/All#SparkFun_ATECCX08a
 #include <i2c_t3.h> //use to communicate with the ATECC608a cryptographic coprocessor
-
+//#include <Wire.h>
 
 ATECCX08A atecc;
 //Get access to a hardware based CRC32 
@@ -264,7 +263,7 @@ uint16_t iso_request[NUM_ISO_REQUESTS] = {
 };
     
 //Create a counter and timer to keep track of received message traffic
-#define RX_TIME_OUT 1000 //milliseconds
+#define RX_TIME_OUT 3000 //milliseconds
 elapsedMillis RXTimer;
 uint32_t RXCount0 = 0;
 uint32_t RXCount1 = 0;
@@ -347,10 +346,6 @@ void load_buffer(){
       }
     }
   }
-
-
-  // reset the timer
-  RXTimer = 0;
 
   //Toggle the LED
   GREEN_LED_state = !GREEN_LED_state;
@@ -1036,8 +1031,8 @@ void setup(void) {
   Can0.begin(0);
   Can1.begin(0);
 
-  Can0.setListenOnly(true);
-  Can1.setListenOnly(true);
+  Can0.setListenOnly(false);
+  Can1.setListenOnly(false);
   
   Can0.setSelfReception(true);
   Can1.setSelfReception(true);
@@ -1112,6 +1107,8 @@ void setup(void) {
   recording = true;
   //pinMode(POWER_PIN,INPUT_PULLUP);
   //attachInterrupt(digitalPinToInterrupt(POWER_PIN), close_binFile, RISING);
+  
+  current_position = 4;
 }
 
 
@@ -1244,6 +1241,7 @@ void write_initial_meta_data(){
 }
 
 void rx_message_routine(uint32_t RXCount){
+  RXTimer = 0;
   if (recording) load_buffer();
   if (stream) printFrame(rxmsg,current_channel,RXCount);
   if ((rxmsg.id & CAN_ERR_FLAG) == CAN_ERR_FLAG){
@@ -1271,15 +1269,17 @@ void rx_message_routine(uint32_t RXCount){
 void loop(void) {
   //Monitor voltage, close file if drop below ~9V
   //Raw voltage analog range is 0-149 for 0-12.2V
-  RAW_voltage = analogRead(RAW_input);
-  if (RAW_voltage < RAW_voltage_threshold) {
-    close_binFile(); // analog of 110 ~ 9V raw voltage
-    Serial.println("Closed file due to loss of power.");
-  }
-  if (voltage_timer > 1000) {
-    //Serial.printf("Voltage = %i\n",RAW_voltage);
-    voltage_timer =0;
-  }
+
+  //Monitoring voltage is a neat idea, but it creates problems of keeping a continous log file.
+//  RAW_voltage = analogRead(RAW_input);
+//  if (RAW_voltage < RAW_voltage_threshold) {
+//    close_binFile(); // analog of 110 ~ 9V raw voltage
+//    Serial.println("Closed file due to loss of power.");
+//  }
+//  if (voltage_timer > 1000) {
+//    //Serial.printf("Voltage = %i\n",RAW_voltage);
+//    voltage_timer =0;
+//  }
   
   // monitor the CAN channels
   if (Can0.read(rxmsg)){
@@ -1292,6 +1292,7 @@ void loop(void) {
     current_channel = 1;
     rx_message_routine(RXCount1);
   }
+  // The following is to work out the MCP CAN over SPI
   /*if (Can2.readMsgBuf(&rxId, &ext_flag, &len, rxBuf) == CAN_OK){
     RXCount2++;
     memcpy(&rxmsg.buf, rxBuf, 8);
