@@ -49,11 +49,13 @@ void setup(void) {
 }
 
 void loop() {
+  
   if (Can0.read(msg)){
     RED_LED_state = !RED_LED_state;
     digitalWrite(RED_LED,RED_LED_state);
     Can1.write(msg);
-    if (display_timer>5 && (msg.id & 0xFF) != 0){
+    // A display timer keeps the USB Serial stack from getting too backed up.  
+    if (display_timer > 5 ){
       display_timer = 0;
       Serial.printf("CAN0 -> CAN1 %08X: %02X %02X %02X %02X %02X %02X %02X %02X\n", msg.id, msg.buf[0], msg.buf[1], msg.buf[2], msg.buf[3], msg.buf[4], msg.buf[5], msg.buf[6], msg.buf[7]); 
     }
@@ -63,8 +65,9 @@ void loop() {
     YELLOW_LED_state = !YELLOW_LED_state;
     digitalWrite(YELLOW_LED,YELLOW_LED_state);
     Can0.write(msg);
+
    
-    if (display_timer>5 && (msg.id & 0xFF) != 0){
+    if (display_timer > 5 ){
       display_timer = 0;
       Serial.printf("CAN1 -> CAN0 %08X: %02X %02X %02X %02X %02X %02X %02X %02X\n", msg.id, msg.buf[0], msg.buf[1], msg.buf[2], msg.buf[3], msg.buf[4], msg.buf[5], msg.buf[6], msg.buf[7]); 
     }
