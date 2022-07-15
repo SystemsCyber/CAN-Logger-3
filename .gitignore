@@ -7,3 +7,4 @@ clientApp/password.txt
 
 *.bin
 *.pdf_tex
+.ipynb_checkpoints/CAN Log Decryptor-checkpoint.ipynb

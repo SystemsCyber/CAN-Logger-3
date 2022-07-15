@@ -1,4 +1,4 @@
-#define USE_ENCRYPTION 1
+//#define USE_ENCRYPTION 1
 
 /*
  * NMFTA CAN Logger 3 Project   
@@ -218,8 +218,9 @@ uint16_t iso_request_index;
 uint8_t send_passes;
 uint8_t send_iso_passes;
 
-#define NUM_REQUESTS 27
+#define NUM_REQUESTS 28
 uint16_t request_pgn[NUM_REQUESTS] = {
+  0xEE00, // Address Claimed
   65261, // Cruise Control/Vehicle Speed Setup
   65214, // Electronic Engine Controller 4
   65259, // Component Identification
