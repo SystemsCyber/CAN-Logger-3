@@ -9,3 +9,4 @@ clientApp/password.txt
 *.pdf_tex
 username.txt
 password.txt
+.ipynb_checkpoints/CAN Log Decryptor-checkpoint.ipynb

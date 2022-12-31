@@ -218,8 +218,9 @@ uint16_t iso_request_index;
 uint8_t send_passes;
 uint8_t send_iso_passes;
 
-#define NUM_REQUESTS 27
+#define NUM_REQUESTS 28
 uint16_t request_pgn[NUM_REQUESTS] = {
+  0xEE00, // Address Claimed
   65261, // Cruise Control/Vehicle Speed Setup
   65214, // Electronic Engine Controller 4
   65259, // Component Identification
@@ -931,6 +932,7 @@ void myLongPressFunction(){
 
 
 void setup(void) {
+ 
 #ifdef USE_ENCRYPTION 
   EEPROM.get(ENCRYPTED_LOGGING_ADDR,encrypted_logging);
 #endif
@@ -1109,6 +1111,8 @@ void setup(void) {
   //attachInterrupt(digitalPinToInterrupt(POWER_PIN), close_binFile, RISING);
   
   current_position = 4;
+
+  
 }
 
 
@@ -1238,6 +1242,7 @@ void write_initial_meta_data(){
   }
   
   EEPROM.put(EEPROM_metadata_ADDR, data_file_contents);
+ 
 }
 
 void rx_message_routine(uint32_t RXCount){
@@ -1407,6 +1412,63 @@ void loop(void) {
     else if (commandString.equalsIgnoreCase("ENCRYPT ON")) turn_encrypted_logging_on();
     else if (commandString.equalsIgnoreCase("ENCRYPT OFF"))turn_encrypted_logging_off();
 #endif
+    else if (commandString.startsWith("SETTIME")){
+      commandString.remove(0,8);
+      char date_stamp[11];
+      char time_stamp[9];
+      commandString.toCharArray(date_stamp,sizeof(date_stamp));
+      Serial.print("Setting date to: ");
+      Serial.println(date_stamp); 
+      
+      commandString.remove(0,11);
+      commandString.toCharArray(time_stamp,sizeof(time_stamp));
+      Serial.print("Setting time to: ");
+      Serial.println(time_stamp); 
+      
+      int YYYY = atoi(date_stamp);
+      if (YYYY < 2022){
+        Serial.println(F("Year is not correct"));
+        return;
+      }
+      memset(&date_stamp[0],' ',5); 
+      byte MM = atoi(date_stamp);
+      if (MM < 1 || MM > 12){
+        Serial.println(F("Month is not correct"));
+        return;
+      }
+      memset(&date_stamp[5],' ',3); 
+      byte DD = atoi(date_stamp);
+      if (DD < 1 || DD > 31){
+        Serial.println(F("Day is not correct"));
+        return;
+      }
+      
+      byte HH = atoi(time_stamp);
+      if (HH < 0 || HH > 23){
+        Serial.println(F("Hour (24-hour clock) is not correct"));
+        return;
+      }
+      memset(&time_stamp[0],' ',3); 
+      byte mm = atoi(time_stamp);
+      if (mm < 0 || mm > 59){
+        Serial.println(F("Minutes are not correct"));
+        return;
+      }
+      memset(&time_stamp[3],' ',3); 
+      byte ss = atoi(time_stamp);
+      if (ss < 0 || DD > 59){
+        Serial.println(F("Seconds are not correct"));
+        return;
+      }
+      
+      
+      setTime(HH, mm, ss, DD, MM, YYYY);
+      Teensy3Clock.set(now());
+
+      Serial.println("Setting Teensy Time");
+      sprintf(timeString,"%04d-%02d-%02d %02d:%02d:%02d.%06d",year(),month(),day(),hour(),minute(),second(),uint32_t(microsecondsPerSecond));
+      Serial.println(timeString);
+    }
     else if (commandString.startsWith("BIN ")){
       char current_file_name[13];
       commandString.remove(0,4);
@@ -1480,6 +1542,7 @@ void loop(void) {
       Serial.println(F("ERRORS      (Display error count on the channels)"));
       Serial.println(F("REQUEST ON  (Turn requests on)"));
       Serial.println(F("REQUEST OFF (Turn request off)"));
+      Serial.println(F("SETTIME YYYY-MM-DD HH:MM:SS (Set the realtime clock according to the timestamp)"));
       Serial.println(F("STREAM ON   (Start sending interpreted CAN Frames to the Serial port)"));
       Serial.println(F("STREAM OFF  (Stop sending interpreted CAN Frames to the Serial port)"));
       Serial.println(F("BAUDRATE    (Show the baudrate in each log file)"));
