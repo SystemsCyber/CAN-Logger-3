@@ -1,4 +1,4 @@
-#define USE_ENCRYPTION 1
+//#define USE_ENCRYPTION 1
 
 /*
  * NMFTA CAN Logger 3 Project   

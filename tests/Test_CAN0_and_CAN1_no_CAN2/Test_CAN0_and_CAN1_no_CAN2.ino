@@ -59,7 +59,7 @@ boolean YELLOW_LED_state;
 
 //Define default baudrate
 #define BAUDRATE250K 250000
-#define BAUDRATE500K 500000
+#define BAUDRATE500K 250000
 
 
 //A generic CAN Frame print function for the Serial terminal
@@ -111,6 +111,12 @@ void setup() {
    Can0.setFilter(allPassFilter,filterNum); 
    Can1.setFilter(allPassFilter,filterNum); 
   }
+  Can0.write(txmsg0);
+  txmsg0.id = 0x18FF30D8;
+  Can0.write(txmsg0);
+  txmsg0.id = 0x18FF30D9;
+  Can0.write(txmsg0);
+
 }
 
 
@@ -134,7 +140,7 @@ void loop() {
   
   if (TXTimer0 >= TXPeriod0){
 	  TXTimer0 = 0;//Reset Timer
-  
+    txmsg0.id = 0x0CF00427;
 	  //Convert the 32-bit timestamp into 4 bytes with the most significant byte (MSB) first (Big endian).
     uint32_t sysMicros = micros();
     txmsg0.buf[0] = (sysMicros & 0xFF000000) >> 24;
@@ -149,8 +155,36 @@ void loop() {
     txmsg0.buf[7] = (TXCount0 & 0x000000FF);
 
     //Write the message on CAN channel 0
-  	Can0.write(txmsg0);
+  	txmsg0.id = 0x0CF00427;
+    
     TXCount0++;
+    txmsg0.id = 0x0CFE6C27;
+    Can0.write(txmsg0);
+    txmsg0.id = 0x18FF3227;
+    Can0.write(txmsg0);
+    txmsg0.id = 0x18FF3327;
+    Can0.write(txmsg0);
+    txmsg0.id = 0x18FF3427;
+    Can0.write(txmsg0);
+    txmsg0.id = 0x18FF3527;
+    Can0.write(txmsg0);
+    txmsg0.id = 0x18FF3627;
+    Can0.write(txmsg0);
+    txmsg0.id = 0x18FF3727;
+    Can0.write(txmsg0);
+    txmsg0.id = 0x18FF3827;
+    Can0.write(txmsg0);
+    txmsg0.id = 0x18FF3927;
+    Can0.write(txmsg0);
+    txmsg0.id = 0x18FF3A27;
+    Can0.write(txmsg0);
+    txmsg0.id = 0x18FF3B27;
+    Can0.write(txmsg0);
+    txmsg0.id = 0x18FF3C27;
+    Can0.write(txmsg0);
+    txmsg0.id = 0x18FF3D27;
+    Can0.write(txmsg0);
+
     
     //Toggle the LED
     RED_LED_state = !RED_LED_state;

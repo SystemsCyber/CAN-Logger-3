@@ -11,10 +11,8 @@
 #
 # Happy Coding!
 
-service: 
-  name: securecanlogger
-  awsKmsKeyArn: arn:aws:kms:us-east-2:096696900030:key/161b7817-f9b5-444a-87dc-a4d5943f7c1e
-
+service:  securecanlogger
+  
 # app and org for use with dashboard.serverless.com
 # app: secure-CAN-logger
 # org: csu-systems
@@ -25,21 +23,11 @@ service:
 
 provider:
   name: aws
-  runtime: python3.7
+  runtime: python3.8
   profile: csu
   stage: dev
   region: us-east-2
-  apiKeys:
-    - CANLoggerAPIKey
-  usagePlan:
-    quota:
-      limit: 500
-      offset: 2
-      period: MONTH
-    throttle:
-      burstLimit: 20
-      rateLimit: 10
-
+  
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
 #    - Effect: "Allow"
@@ -77,6 +65,13 @@ functions:
           path: hello
           method: get
           private: true
+  getKey:
+    handler: key_dump.key_dump
+    awsKmsKeyArn: arn:aws:kms:us-east-2:096696900030:key/161b7817-f9b5-444a-87dc-a4d5943f7c1e
+    events:
+      - http:
+          path: getKey
+          method: get
   auth:
     handler: auth.auth
     awsKmsKeyArn: arn:aws:kms:us-east-2:096696900030:key/161b7817-f9b5-444a-87dc-a4d5943f7c1e
