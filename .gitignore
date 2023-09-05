@@ -11,3 +11,4 @@ username.txt
 password.txt
 .ipynb_checkpoints/CAN Log Decryptor-checkpoint.ipynb
 tests/AP_SimpleWebServer/arduino_secrets.h
+CANStreamOverWiFi/arduino_secrets.h

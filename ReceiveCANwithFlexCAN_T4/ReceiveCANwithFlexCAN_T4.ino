@@ -3,7 +3,7 @@ FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> Can1;
 FlexCAN_T4<CAN0, RX_SIZE_256, TX_SIZE_16> Can0;
 #include <TimeLib.h> // be able to keep realtime.
 
-#include <OneButton.h> // Handle the buttons
+//#include <OneButton.h> // Handle the buttons
 
 const uint8_t NUM_STATES = 4;
 uint8_t state = 1;
@@ -19,8 +19,8 @@ uint8_t current_channel;
 #define POWER_PIN  21
 
 // Use the button for multiple inputs: click, doubleclick, and long click.
-OneButton button(BUTTON_PIN, true);
-OneButton right_button(BUTTON_PIN, true);
+// OneButton button(BUTTON_PIN, true);
+// OneButton right_button(BUTTON_PIN, true);
 
 #define FAST_BLINK_TIME 50 //milliseconds
 #define SLOW_BLINK_TIME 500 //milliseconds
@@ -148,10 +148,10 @@ void setup() {
   // Setup the button with an internal pull-up
   pinMode(BUTTON_PIN,INPUT_PULLUP);
     // Setup button functions 
-  button.attachClick(myClickFunction);
-  // button.attachDoubleClick(myDoubleClickFunction);
-  button.attachLongPressStart(myLongPressStartFunction);
-  button.attachLongPressStop(myLongPressStopFunction);
+  // button.attachClick(myClickFunction);
+  // // button.attachDoubleClick(myDoubleClickFunction);
+  // button.attachLongPressStart(myLongPressStartFunction);
+  // button.attachLongPressStop(myLongPressStopFunction);
 
   //Initialize the CAN channels with autobaud.
   Can1.begin();
@@ -291,7 +291,7 @@ void printCAN(const CAN_message_t &msg,uint8_t channel){
 }
 
 void loop() {
-  button.tick();
+  // button.tick();
   Can0.events();
   Can1.events();
 

@@ -37,12 +37,12 @@ int keyIndex = 0;                // your network key Index number (needed only f
 #define WIFI_SCLK_PIN        32
 #define WIFI_CS_PIN        31
 
-int led =  LED_BUILTIN;
+int led =  6;
 int status = WL_IDLE_STATUS;
 WiFiServer server(80);
 
 void setup() {
-  
+
   SPI1.setMOSI(WIFI_MOSI_PIN);
   SPI1.setMISO(WIFI_MISO_PIN);
   SPI1.setSCK(WIFI_SCLK_PIN);
