@@ -67,19 +67,19 @@ CAN_message_t rxmsg, txmsg;
 
 #define NUM_BAUD_RATES 6
 //first and last are the defaults
-uint32_t baud_rates[NUM_BAUD_RATES] = {500000,250000,125000,666666,1000000,250000};
+uint32_t baud_rates[NUM_BAUD_RATES] = {250000,500000,125000,666666,1000000,250000};
 
 uint32_t Can1_bitrate;
 uint32_t Can0_bitrate;
 
 IPAddress ip(192, 168, 30, 2);
-IPAddress broadcastIp(192,168,30,255);
-IPAddress netmask(255, 255, 255, 0);
+IPAddress broadcastIp(192,168,255,255);
+IPAddress netmask(255, 255, 0, 0);
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
 char ssid[] = SECRET_SSID;        // your network SSID (name)
 char pass[] = SECRET_PASS;   // your network password (use for WPA, or use as key for WEP)
 
-unsigned int localPort = 2390;      // local port to listen on
+const unsigned int localPort = 2390;      // local port to listen on
 unsigned int destPort = 2390;      // local port to listen on
 
 char packetBuffer[1500]; //buffer to hold incoming packet
@@ -269,9 +269,9 @@ void setup() {
   pinMode(SILENT_2,OUTPUT);
   
   //Set High to prevent transmission for the CAN TXRX
-  digitalWrite(SILENT_0,LOW); 
-  digitalWrite(SILENT_1,LOW);
-  digitalWrite(SILENT_2,LOW);
+  digitalWrite(SILENT_0,HIGH); 
+  digitalWrite(SILENT_1,HIGH);
+  digitalWrite(SILENT_2,HIGH);
 
   pinMode(GREEN_LED, OUTPUT);
   pinMode(YELLOW_LED, OUTPUT);
@@ -294,7 +294,7 @@ void setup() {
   pinMode(WAKE,OUTPUT);
   digitalWrite(WAKE,HIGH);
 
-   Serial.println("Access Point Web Server");
+  Serial.println("Access Point Web Server");
   //Initialize WiFi module
   WiFi.setPins(WiFi_CS,WiFi_IRQ,WiFi_RST,WiFi_EN);
   // check for the presence of the shield:
@@ -322,8 +322,18 @@ void setup() {
   status = WiFi.beginAP(ssid);
   if (status != WL_AP_LISTENING) {
     Serial.println("Creating access point failed");
-    // don't continue
-    while (true);
+    // don't continue and just flash LEDs
+    while (true){
+      GREEN_LED_state = !GREEN_LED_state;
+      YELLOW_LED_state = !YELLOW_LED_state;
+      RED_LED_state = !RED_LED_state;
+      BLUE_LED_state = !BLUE_LED_state;
+      digitalWrite(GREEN_LED,GREEN_LED_state);
+      digitalWrite(YELLOW_LED,YELLOW_LED_state);
+      digitalWrite(RED_LED,RED_LED_state);
+      digitalWrite(BLUE_LED,BLUE_LED_state);
+      delay(150);
+    }
   }
 
   // wait 10 seconds for connection:
@@ -343,8 +353,7 @@ void setup() {
   Can1.enableFIFO();
   Can1.enableFIFOInterrupt();
   Can1.onReceive(processCan1);
-  Can1.mailboxStatus();
-
+  
   Can0.begin();
   Can0_bitrate = baud_rates[0];
   Can0.setBaudRate(Can0_bitrate);
@@ -352,18 +361,10 @@ void setup() {
   Can0.enableFIFO();
   Can0.enableFIFOInterrupt();
   Can0.onReceive(processCan0);
-  Can0.mailboxStatus();
   
-  // These should really be built into the library
-  autoBaud0(); 
-  autoBaud1();
-
   //Flex CAN defaults
   txmsg.flags.extended = 1;
   txmsg.len = 8;  
-
-
- 
 }
 
 
@@ -374,7 +375,6 @@ void loop() {
   
   //Turn the LEDs on if there's no traffic
   if (RXTimer0 > 500) RED_LED_state = HIGH;
-  if (RXTimer1 > 500) YELLOW_LED_state = HIGH;
   
   digitalWrite(GREEN_LED,GREEN_LED_state);
   digitalWrite(YELLOW_LED,YELLOW_LED_state);
@@ -403,11 +403,6 @@ void loop() {
     UDP.write(ReplyBuffer);
     UDP.endPacket();
   }
-  // if (sendMessage){
-  //   sendMessage=false;
-  //   load_buffer(rxmsg);
-    
-  // } 
   
 }
 void autoBaud0(){
@@ -472,8 +467,7 @@ void autoBaud1(){
       }
 
     }
-    // if we have nothing, then keep looping.
-
+  
   }
   Serial.print("No Messages Found on CAN1. Using ");
   Serial.print(Can1_bitrate);
@@ -485,6 +479,11 @@ void processCan0(const CAN_message_t &msg) {
   RXTimer0 = 0;
   RED_LED_state = !RED_LED_state;
   printCAN(msg,0);
+  if (msg.id == 0x19f21139){ // Water level sensor on ballast pumps
+      GREEN_LED_state = msg.buf[0]; //Center
+      YELLOW_LED_state = msg.buf[1]; //Port
+      BLUE_LED_state = msg.buf[2]; // Starboard
+  }
 }
 
 void processCan1(const CAN_message_t &msg) {
@@ -492,6 +491,11 @@ void processCan1(const CAN_message_t &msg) {
   RXTimer1 = 0;
   YELLOW_LED_state = !YELLOW_LED_state;
   printCAN(msg,1);
+  if (msg.id == 0x19f21139){ // Water level sensor on ballast pumps
+      GREEN_LED_state = msg.buf[0]; //Center
+      YELLOW_LED_state = msg.buf[1]; //Port
+      BLUE_LED_state = msg.buf[2]; // Starboard
+  }
 }
 
 void printCAN(const CAN_message_t &msg, uint8_t channel){
@@ -510,28 +514,13 @@ void printCAN(const CAN_message_t &msg, uint8_t channel){
   
   for ( uint8_t i = 0; i < msg.len; i++ ) {
     sprintf(&ReplyBuffer[strlen(ReplyBuffer)]," %02X",msg.buf[i]);
-    //Serial.printf(" %02X",msg.buf[i]); 
   } 
   
   Serial.println(ReplyBuffer);
   
-  // // send a reply, to the IP address and port that sent us the packet we received
-  // UDP.beginPacket(broadcastIp, UDP.remotePort());
-  // //UDP.beginPacket(IPAddress(0, 0, 0, 0), UDP.remotePort());
-  // UDP.write(ReplyBuffer);
-  // if (UDP.endPacket()) {
-  //   Serial.print(" - Sent to ");
-  //   Serial.print(broadcastIp);
-  //   Serial.print(' ');
-  //   Serial.println(UDP.remotePort());
-  //   BLUE_LED_state = !BLUE_LED_state;
-  // }
-  // else {
-  //   Serial.println(" - Error");
-    
-  // }
-  // 
-  
+  // send a reply, to the IP address and port that sent us the packet we received
+  UDP.beginPacket(broadcastIp, UDP.remotePort());
+  UDP.write(ReplyBuffer);  
 }
 
 
